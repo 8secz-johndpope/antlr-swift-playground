@@ -18,11 +18,12 @@ class TestListener: SwiftBaseListener {
 }
 
 do {
-    let sourceFilePath = FileManager.default.currentDirectoryPath + "/swiftlang-802.0.31.3.swift"
-    let data = try Data(contentsOf: URL(string: sourceFilePath)!)
+    let sourceFilePath = FileManager.default.currentDirectoryPath + "/starwars.schema"
+    let url = URL.init(fileURLWithPath: sourceFilePath)
+    let data = try Data(contentsOf: url)
 
     let input = try ANTLRFileStream(sourceFilePath, String.Encoding.utf8)
-    let lexer = SwiftLexer(input)
+    let lexer = GraphQLLexer(input)
     let tokens = CommonTokenStream(lexer)
     let parser = try SwiftParser(tokens)
     let tree = try parser.topLevel()

@@ -1,0 +1,19 @@
+
+let textFileName = "graphql.schema"
+
+if let textFilePath = Bundle.main.path(forResource: textFileName, ofType: nil) {
+    let lexer =  GraphQLLexer(ANTLRFileStream(textFilePath))
+    print("lexer:",lexer)
+    let tokens =  CommonTokenStream(lexer)
+    let parser = try GraphQLParser(tokens)
+    
+    let tree = try parser.compilationUnit()
+    print("tree:",tree)
+    
+    let walker = ParseTreeWalker()
+    let graphQLwalker = GraphQLWalker()
+    try walker.walk(graphQLwalker,tree)
+    
+} else {
+    print("error occur: can not open \(textFileName)")
+}
